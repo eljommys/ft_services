@@ -1,0 +1,5 @@
+FROM alpine
+
+RUN apk update
+RUN apk add nginx
+RUN adduser -g 'Nginx www user' -h /home/www/ jserrano
