@@ -4,7 +4,6 @@ metadata:
   name: nginx
   annotations:
     metallb.universe.tf/address-pool: default
-    metallb.universe.tf/allow-shared-ip: shared
 spec:
   type: LoadBalancer
   selector:
@@ -12,16 +11,10 @@ spec:
   ports:
     - name: http
       port: 80
-      protocol: TCP
-      targetPort: 80
     - name: https
       port: 443
-      protocol: TCP
-      targetPort: 443
     - name: ssh
       port: 22
-      protocol: TCP
-      targetPort: 22
 
 ---
 
@@ -36,11 +29,6 @@ spec:
   selector:
     matchLabels:
       app: nginx
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
