@@ -1,3 +1,0 @@
-#!/bin/sh
-
-grafana-server
