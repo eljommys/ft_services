@@ -1,24 +1,38 @@
 #!/bin/sh
 
 minikube delete
+killall -TERM kubectl minikube VBoxHeadless
 
-#Starting minikube and setting virtualbox as
+# Use virtualbox as kubernetes driver
 minikube start --driver=virtualbox
 
-#Setting propper environment variables to use docker daemon
+# Setting propper environment variables for docker in kubernetes.
 eval $(minikube docker-env)
 
 docker build -t my_nginx srcs/nginx
+docker build -t my_wordpress srcs/wordpress
+docker build -t my_mysql srcs/mysql
+docker build -t my_phpmyadmin srcs/phpmyadmin
 docker build -t my_ftps srcs/ftps
+docker build -t my_grafana srcs/grafana
+docker build -t my_influxdb srcs/influxdb
 
-#Installing and configuring metallb by the manifest
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
-#kubectl apply -f https://raw.githubusercontent.com/mvallim/kubernetes-under-the-hood/master/metallb/metallb-config.yaml
-kubectl apply -f srcs/metallb.yaml
-kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
-
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+kubectl apply -f srcs/metalLB.yaml
 kubectl apply -f srcs/nginx.yaml
+kubectl apply -f srcs/mysql.yaml
 kubectl apply -f srcs/ftps.yaml
+kubectl apply -f srcs/phpmyadmin.yaml
+kubectl apply -f srcs/wordpress.yaml
+kubectl apply -f srcs/grafana.yaml
+kubectl apply -f srcs/influxdb.yaml
 
+kubectl create secret generic -n metallb-system memberlist  --from-literal=secretkey="$(openssl rand -base64 128)"
+
+minikube addons enable dashboard
+minikube addons enable ingress
+minikube addons enable metrics-server
+
+# Open dashboard.
 minikube dashboard
