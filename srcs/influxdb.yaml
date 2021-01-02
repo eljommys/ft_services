@@ -7,8 +7,6 @@ metadata:
 spec:
   ports:
   - port: 8086
-    protocol: TCP
-    targetPort: 8086
   selector:
     app: influxdb
 
@@ -40,11 +38,6 @@ spec:
   selector:
     matchLabels:
       app: influxdb
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:

@@ -10,11 +10,10 @@ spec:
   ports:
   - name: phpmyadmin
     port: 5000
-    protocol: TCP
-    targetPort: 5000
   selector:
     app: phpmyadmin
   type: LoadBalancer
+  loadBalancerIP: 192.168.99.53
 
 ---
 
@@ -29,11 +28,6 @@ spec:
   selector:
     matchLabels:
       app: phpmyadmin
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
