@@ -1,7 +1,8 @@
 #!/bin/sh
 
-minikube delete
-killall -TERM kubectl minikube VBoxHeadless
+export MINIKUBE_HOME=/goinfre/$(whoami)
+#minikube delete
+#killall -TERM kubectl minikube VBoxHeadless
 
 # Use virtualbox as kubernetes driver
 minikube start --driver=virtualbox
