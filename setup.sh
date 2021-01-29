@@ -1,8 +1,5 @@
-#!/bin/sh
-
-export MINIKUBE_HOME=/goinfre/$(whoami)
-#minikube delete
-#killall -TERM kubectl minikube VBoxHeadless
+#export MINIKUBE_HOME=/goinfre/$(whoami)
+minikube delete
 
 # Use virtualbox as kubernetes driver
 minikube start --driver=virtualbox
@@ -33,8 +30,8 @@ kubectl apply -f srcs/phpmyadmin.yaml
 kubectl apply -f srcs/wordpress.yaml
 
 minikube addons enable dashboard
-minikube addons enable ingress
 minikube addons enable metrics-server
+minikube addons enable ingress
 
 # Open dashboard.
 minikube dashboard
