@@ -2,7 +2,7 @@
 minikube delete
 
 # Use virtualbox as kubernetes driver
-minikube start --driver=virtualbox
+minikube start --driver=docker
 
 # Setting propper environment variables for docker in kubernetes.
 eval $(minikube docker-env)
